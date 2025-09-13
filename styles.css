@@ -54,8 +54,7 @@
 
 img {
   display: block;
-  max-width: 90vw;
-  max-height: 80vh;
+  width: 90vw;
   border-radius: 12px;
   object-fit: cover;
 }
