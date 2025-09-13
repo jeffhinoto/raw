@@ -1,43 +1,33 @@
-/* Corpo centralizado e fundo escuro semi-transparente */
-body {
-  margin: 0;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: rgba(0, 0, 0, 0.7); /* fundo escurecido */
-  font-family: 'Arial', sans-serif;
-}
-
-/* Popup container */
 .i {
+  position: fixed;       /* Fixa o popup na tela */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: rgba(0, 0, 0, 0.6); /* fundo semi-transparente */
   z-index: 9999;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease, transform 0.3s ease;
-  transform: scale(0.9);
 }
 
-/* Popup ativo */
 .i.s {
   opacity: 1;
   visibility: visible;
   transform: scale(1);
 }
 
-/* Wrapper da imagem para posicionar o botão */
 .img-wrapper {
   position: relative;
   display: inline-block;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 
-/* Botão de fechar */
 .c {
   position: absolute;
   top: 12px;
@@ -46,10 +36,9 @@ body {
   height: 45px;
   border: none;
   border-radius: 50%;
-  background: rgba(255, 0, 0, 0.8);
+  background: rgba(255,0,0,0.8);
   color: #fff;
   font-size: 24px;
-  font-weight: bold;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -58,23 +47,15 @@ body {
   z-index: 10;
 }
 
-/* Hover no botão */
 .c:hover {
-  background: rgba(255, 0, 0, 1);
+  background: rgba(255,0,0,1);
   transform: scale(1.1);
 }
 
-/* Imagem do popup */
 img {
   display: block;
   max-width: 90vw;
   max-height: 80vh;
   border-radius: 12px;
   object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-/* Zoom sutil ao passar o mouse na imagem */
-.img-wrapper:hover img {
-  transform: scale(1.02);
 }
