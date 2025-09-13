@@ -54,7 +54,7 @@
 
 img {
   display: block;
-  width: 90vw;
+  hei: 90vh;
   border-radius: 12px;
   object-fit: cover;
 }
