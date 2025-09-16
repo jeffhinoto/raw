@@ -1,68 +1,39 @@
-.i {
-  position: fixed;       /* Fixa o popup na tela */
-  top: 0;
-  left: 0;
+/* Container do carrossel */
+.slides {
+  position: relative;
   width: 100%;
+  height: 60vh;
+  max-width: 80vw;
+  overflow: visible; /* permite ver slides laterais */
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Cada slide (controlado pelo JS) */
+.slide {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  transition: transform 0.6s ease, filter 0.6s ease, opacity 0.6s ease;
+  width: 70%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.6); /* fundo semi-transparente */
-  z-index: 9999;
   opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.i.s {
-  opacity: 1;
-  visibility: visible;
-  transform: scale(1);
-}
-
-.img-wrapper {
-  position: relative;
-  display: inline-block;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
-
-.c {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 45px;
-  height: 45px;
-  border: none;
-  border-radius: 50%;
-  background: rgba(255,0,0,0.8);
-  color: #fff;
-  font-size: 24px;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: background 0.2s ease, transform 0.2s ease;
-  z-index: 10;
-}
-
-.c:hover {
-  background: rgba(255,0,0,1);
-  transform: scale(1.1);
-}
-
-.i img {
-  display: block;
-  max-height: 80vh;
-  height: 60vh;
-  max-width: 80vw;
-  width: auto;
-  border-radius: 12px;
+.slide a, .slide img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  border-radius: 12px;
 }
 
-
+/* Indicadores */
 .indicators {
   position: absolute;
   bottom: 12px;
@@ -86,38 +57,3 @@
   background: #fff;
   transform: scale(1.2);
 }
-
-/* Container do carrossel */
-.slides {
-  display: flex;
-  transition: transform 0.6s ease;
-  width: 100%;
-  height: 60vh;
-  max-width: 80vw;
-  overflow: hidden;
-  border-radius: 12px;
-}
-
-/* Cada slide */
-.slide {
-  min-width: 100%;
-  height: 100%;
-  flex-shrink: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.slide a {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 12px;
-}
-
