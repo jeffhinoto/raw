@@ -11,6 +11,7 @@ const ads = Array.from(document.querySelectorAll(".ads div")).map(div => ({
 
 let current = 0;
 let intervalId = null;
+const slides = [];
 
 // monta os slides
 ads.forEach(ad => {
@@ -23,6 +24,7 @@ ads.forEach(ad => {
 
   slide.innerHTML = content;
   slidesEl.appendChild(slide);
+  slides.push(slide);
 });
 
 // cria os indicadores
@@ -32,7 +34,7 @@ ads.forEach((_, i) => {
   if (i === 0) dot.classList.add("active");
   dot.addEventListener("click", () => {
     current = i;
-    updateSlide();
+    updateSlides();
     resetInterval();
   });
   indicatorsEl.appendChild(dot);
@@ -44,15 +46,38 @@ function updateIndicators(index) {
   });
 }
 
-function updateSlide() {
-  slidesEl.style.transform = `translateX(-${current * 100}%)`;
+function updateSlides() {
+  slides.forEach((slide, i) => {
+    const offset = i - current;
+
+    if (offset === 0) {
+      // slide ativo
+      slide.style.transform = "translateX(-50%) scale(1)";
+      slide.style.zIndex = 3;
+      slide.style.filter = "none";
+      slide.style.opacity = 1;
+    } else if (offset < 0) {
+      // anteriores (esquerda)
+      slide.style.transform = `translateX(calc(-50% + ${offset * 120}px)) scale(0.8)`;
+      slide.style.zIndex = 2;
+      slide.style.filter = "blur(2px)";
+      slide.style.opacity = 0.6;
+    } else {
+      // próximos (direita)
+      slide.style.transform = `translateX(calc(-50% + ${offset * 120}px)) scale(0.8)`;
+      slide.style.zIndex = 2;
+      slide.style.filter = "blur(2px)";
+      slide.style.opacity = 0.6;
+    }
+  });
+
   updateIndicators(current);
 }
 
 function startRotation() {
   intervalId = setInterval(() => {
     current = (current + 1) % ads.length;
-    updateSlide();
+    updateSlides();
   }, 5000);
 }
 
@@ -62,7 +87,7 @@ function resetInterval() {
 }
 
 // inicia
-updateSlide();
+updateSlides();
 startRotation();
 
 // botão fechar
