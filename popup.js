@@ -50,26 +50,38 @@ function updateSlides() {
   slides.forEach((slide, i) => {
     const offset = i - current;
 
+    slide.classList.remove("active");
+
     if (offset === 0) {
-      // slide ativo
-      slide.style.transform = "translateX(-50%) scale(1)";
+      // central
+      slide.style.transform = "translate(-50%, -50%) scale(1)";
       slide.style.zIndex = 3;
       slide.style.filter = "none";
       slide.style.opacity = 1;
-    } else if (offset < 0) {
-      // anteriores (esquerda)
-      slide.style.transform = `translateX(calc(-50% + ${offset * 120}px)) scale(0.8)`;
+      slide.classList.add("active");
+    } else if (offset === -1) {
+      // anterior (esquerda)
+      slide.style.transform = "translate(calc(-150%), -50%) scale(0.8)";
       slide.style.zIndex = 2;
-      slide.style.filter = "blur(2px)";
-      slide.style.opacity = 0.6;
+      slide.style.filter = "blur(3px)";
+      slide.style.opacity = 0.7;
+    } else if (offset === 1) {
+      // próximo (direita)
+      slide.style.transform = "translate(calc(50%), -50%) scale(0.8)";
+      slide.style.zIndex = 2;
+      slide.style.filter = "blur(3px)";
+      slide.style.opacity = 0.7;
     } else {
-      // próximos (direita)
-      slide.style.transform = `translateX(calc(-50% + ${offset * 120}px)) scale(0.8)`;
-      slide.style.zIndex = 2;
-      slide.style.filter = "blur(2px)";
-      slide.style.opacity = 0.6;
+      // esconde o resto
+      slide.style.transform = "translate(-50%, -50%) scale(0.5)";
+      slide.style.zIndex = 1;
+      slide.style.opacity = 0;
     }
   });
+
+  updateIndicators(current);
+}
+
 
   updateIndicators(current);
 }
