@@ -1,16 +1,36 @@
-// Lista de anúncios (pode ter só imagem ou imagem + link)
-const ads = [
-  { img: "https://noitescomletras.com.br/wp-content/uploads/2023/05/familia-feliz-deitada.jpg", link: "https://google.com" },
-  { img: "https://placekitten.com/800/400" }, // sem link
-  { img: "https://picsum.photos/800/400", link: "https://example.com" }
-];
-
 const imgEl = document.querySelector(".ad-img");
 const linkEl = document.querySelector(".ad-link");
 const closeBtn = document.querySelector(".c");
 const popup = document.querySelector(".i");
+const indicatorsEl = document.querySelector(".indicators");
+
+// lê anúncios do HTML
+const ads = Array.from(document.querySelectorAll(".ads div")).map(div => ({
+  img: div.dataset.img,
+  link: div.dataset.link || null
+}));
 
 let current = 0;
+let intervalId = null;
+
+// cria as bolinhas dinamicamente
+ads.forEach((_, i) => {
+  const dot = document.createElement("div");
+  dot.classList.add("dot");
+  if (i === 0) dot.classList.add("active");
+  dot.addEventListener("click", () => {
+    current = i;
+    showAd(current);
+    resetInterval();
+  });
+  indicatorsEl.appendChild(dot);
+});
+
+function updateIndicators(index) {
+  document.querySelectorAll(".dot").forEach((d, i) => {
+    d.classList.toggle("active", i === index);
+  });
+}
 
 function showAd(index) {
   const ad = ads[index];
@@ -23,18 +43,28 @@ function showAd(index) {
     linkEl.removeAttribute("href");
     linkEl.style.pointerEvents = "none";
   }
+
+  updateIndicators(index);
 }
 
-// inicia mostrando o primeiro anúncio
-showAd(current);
+function startRotation() {
+  intervalId = setInterval(() => {
+    current = (current + 1) % ads.length;
+    showAd(current);
+  }, 5000);
+}
 
-// troca a cada 5s
-setInterval(() => {
-  current = (current + 1) % ads.length;
-  showAd(current);
-}, 5000);
+function resetInterval() {
+  clearInterval(intervalId);
+  startRotation();
+}
+
+// inicia
+showAd(current);
+startRotation();
 
 // botão fechar
 closeBtn.addEventListener("click", () => {
   popup.classList.remove("s");
+  clearInterval(intervalId);
 });
