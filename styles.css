@@ -88,35 +88,97 @@
 }
 
 /* Container do carrossel */
+.coverflow-container {
+  position: relative;
+  width: 80vw;
+  height: 60vh;
+  perspective: 1200px; /* Adiciona profundidade 3D */
+  overflow: hidden;
+  border-radius: 12px;
+}
+
 .slides {
-  display: flex;
-  transition: transform 0.6s ease;
-  width: 100%;
-  height: 60vh;
-  max-width: 80vw;
-  overflow: hidden;
-  border-radius: 12px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform-style: preserve-3d; /* Permite transformações 3D nos filhos */
+  transition: transform 0.6s ease;
 }
 
-/* Cada slide */
 .slide {
-  min-width: 100%;
-  height: 100%;
-  flex-shrink: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: absolute;
+  width: 40%;
+  height: auto;
+  max-height: 100%;
+  top: 50%;
+  transform: translateY(-50%) scale(0.6) rotateY(0deg) translateZ(-100px); /* Posição inicial dos slides */
+  opacity: 0;
+  transition: transform 0.6s ease, opacity 0.6s ease, filter 0.6s ease;
 }
 
-.slide a {
-  display: block;
-  width: 100%;
-  height: 100%;
+.slide.active {
+  transform: translateY(-50%) scale(1) rotateY(0deg) translateZ(0);
+  opacity: 1;
+  z-index: 10;
+  filter: none;
 }
 
-.slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 12px;
+.slide.prev {
+  transform: translateY(-50%) translateX(-60%) scale(0.8) rotateY(45deg) translateZ(-150px);
+  opacity: 0.8;
+  z-index: 5;
+  filter: blur(5px);
+}
+
+.slide.next {
+  transform: translateY(-50%) translateX(60%) scale(0.8) rotateY(-45deg) translateZ(-150px);
+  opacity: 0.8;
+  z-index: 5;
+  filter: blur(5px);
+}
+
+.slide a, .slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  transition: transform 0.2s ease;
+}
+
+.slide a:hover {
+  transform: scale(1.05);
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 15;
+  padding: 0 15px;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.coverflow-container:hover .nav-button {
+  opacity: 1;
+}
+
+.nav-button.prev-btn {
+  left: 0;
+  border-radius: 0 10px 10px 0;
+}
+
+.nav-button.next-btn {
+  right: 0;
+  border-radius: 10px 0 0 10px;
 }
