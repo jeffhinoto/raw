@@ -11,7 +11,6 @@ const ads = Array.from(document.querySelectorAll(".ads div")).map(div => ({
 
 let current = 0;
 let intervalId = null;
-const slides = [];
 
 // monta os slides
 ads.forEach(ad => {
@@ -24,7 +23,6 @@ ads.forEach(ad => {
 
   slide.innerHTML = content;
   slidesEl.appendChild(slide);
-  slides.push(slide);
 });
 
 // cria os indicadores
@@ -34,7 +32,7 @@ ads.forEach((_, i) => {
   if (i === 0) dot.classList.add("active");
   dot.addEventListener("click", () => {
     current = i;
-    updateSlides();
+    updateSlide();
     resetInterval();
   });
   indicatorsEl.appendChild(dot);
@@ -46,50 +44,15 @@ function updateIndicators(index) {
   });
 }
 
-function updateSlides() {
-  slides.forEach((slide, i) => {
-    const offset = i - current;
-
-    slide.classList.remove("active");
-
-    if (offset === 0) {
-      // central
-      slide.style.transform = "translate(-50%, -50%) scale(1)";
-      slide.style.zIndex = 3;
-      slide.style.filter = "none";
-      slide.style.opacity = 1;
-      slide.classList.add("active");
-    } else if (offset === -1) {
-      // anterior (esquerda)
-      slide.style.transform = "translate(calc(-150%), -50%) scale(0.8)";
-      slide.style.zIndex = 2;
-      slide.style.filter = "blur(3px)";
-      slide.style.opacity = 0.7;
-    } else if (offset === 1) {
-      // próximo (direita)
-      slide.style.transform = "translate(calc(50%), -50%) scale(0.8)";
-      slide.style.zIndex = 2;
-      slide.style.filter = "blur(3px)";
-      slide.style.opacity = 0.7;
-    } else {
-      // esconde o resto
-      slide.style.transform = "translate(-50%, -50%) scale(0.5)";
-      slide.style.zIndex = 1;
-      slide.style.opacity = 0;
-    }
-  });
-
-  updateIndicators(current);
-}
-
-
+function updateSlide() {
+  slidesEl.style.transform = `translateX(-${current * 100}%)`;
   updateIndicators(current);
 }
 
 function startRotation() {
   intervalId = setInterval(() => {
     current = (current + 1) % ads.length;
-    updateSlides();
+    updateSlide();
   }, 5000);
 }
 
@@ -99,7 +62,7 @@ function resetInterval() {
 }
 
 // inicia
-updateSlides();
+updateSlide();
 startRotation();
 
 // botão fechar
